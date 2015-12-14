@@ -45,19 +45,13 @@ class DEPagingScrollView: UIScrollView {
     
     weak var pagingDelegate: DEPagingScrollViewDelegate?
     weak var datasource: DEPagingScrollViewDataSource? {
-        didSet {
-            if (datasource != nil) { self.configureScrollView() }
-        }
+        didSet { if let _ = datasource { self.configureScrollView() } }
     }
     
     weak var _scrollViewDelegate: UIScrollViewDelegate?
     override var delegate: UIScrollViewDelegate? {
-        get {
-            return _scrollViewDelegate
-        }
-        set {
-            _scrollViewDelegate = newValue
-        }
+        get { return _scrollViewDelegate }
+        set { _scrollViewDelegate = newValue }
     }
     
     private func commonInitialization() {
