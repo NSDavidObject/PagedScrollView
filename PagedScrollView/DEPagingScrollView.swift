@@ -74,6 +74,10 @@ class DEPagingScrollView: UIScrollView {
         super.init(coder: aDecoder)
         commonInitialization()
     }
+    
+    override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        return true
+    }
 }
 
 // MARK: - DataSource
