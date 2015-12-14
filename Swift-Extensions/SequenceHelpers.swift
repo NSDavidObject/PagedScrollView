@@ -92,6 +92,15 @@ extension SequenceType {
         }
     }
     
+    func forEachUntil(condition: Void -> Bool, body: (Int, Self.Generator.Element) -> Void) {
+        
+        for (idx, element) in self.enumerate() {
+            
+            if condition() { break }
+            body(idx, element)
+        }
+    }
+    
     /// - Note: When condition is met, `body` is called with element.
     /// - Note: You cannot use the `break` or `continue` statement to exit the
     ///   current call of the `body` closure or skip subsequent calls.
