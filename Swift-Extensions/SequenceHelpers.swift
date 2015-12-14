@@ -108,7 +108,7 @@ extension SequenceType {
     /// - Complexity: O(`self.count`)
     func forEachWhere(match: Generator.Element -> Bool, body: Self.Generator.Element -> Void) {
         
-        for element in self where condition(element) {
+        for element in self where match(element) {
             body(element)
         }
     }
