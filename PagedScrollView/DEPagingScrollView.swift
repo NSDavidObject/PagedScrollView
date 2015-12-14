@@ -157,7 +157,7 @@ extension DEPagingScrollView: UIScrollViewDelegate {
                 
             } else {
                 
-                visibility = min( visibleSize / viewSize , 1) + 0.000001
+                visibility = min( visibleSize / viewSize + 0.000001 , 1)
             }
             
             pagingDelegate.pagingScrollView?(self, didScrollPastView: currVisibleView, forIndex: currVisibleViewIndex, visibility: visibility)
