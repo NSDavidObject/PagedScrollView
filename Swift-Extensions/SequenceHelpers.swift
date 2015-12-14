@@ -37,18 +37,11 @@ extension SequenceType {
         return indices
     }
     
-    func enumerateUntil(match: Generator.Element -> Bool, body: Generator.Element -> ()) {
-        forEach { if match($0) { return }; body($0) }
-    }
-    func enumerateWhile(match: Generator.Element -> Bool, body: Generator.Element -> ()) {
-        forEach { if !match($0) { return }; body($0) }
-    }
-    
     @warn_unused_result
     func takeWhile(match: Generator.Element -> Bool) -> [Generator.Element] {
         
         var elements: [Generator.Element] = []
-        enumerateWhile(match) { elem in
+        forEachWhile(match) { elem in
             elements.append(elem)
         }
         
@@ -58,7 +51,7 @@ extension SequenceType {
     func takeUntil(match: Generator.Element -> Bool) -> [Generator.Element] {
         
         var elements: [Generator.Element] = []
-        enumerateUntil(match) { elem in
+        forEachUntil(match) { elem in
             elements.append(elem)
         }
         
@@ -84,10 +77,14 @@ extension SequenceType {
     ///
     /// - Complexity: O(`self.count`)
     func forEachUntil(condition: Void -> Bool, body: Self.Generator.Element -> Void) {
+        enumerateUntil(condition) { (_, elem) in body(elem) }
+    }
+    
+    func forEachUntil(match: Generator.Element -> Bool, body: Generator.Element -> Void) {
         
         for element in self {
             
-            if condition() { break }
+            if match(element) { break }
             body(element)
         }
     }
@@ -109,10 +106,32 @@ extension SequenceType {
     ///   skip subsequent calls.
     ///
     /// - Complexity: O(`self.count`)
-    func forEachWhere(condition: Generator.Element -> Bool, body: Self.Generator.Element -> Void) {
+    func forEachWhere(match: Generator.Element -> Bool, body: Self.Generator.Element -> Void) {
         
         for element in self where condition(element) {
             body(element)
+        }
+    }
+    
+    func forEachWhile(match: Generator.Element -> Bool, body: Generator.Element -> Void) {
+        
+        for element in self {
+            
+            if (!match(element)) {
+                break
+            }
+            
+            body(element)
+        }
+    }
+    
+    
+    func enumerateUntil(condition: Void -> Bool, body: (Int, Self.Generator.Element) -> Void) {
+        
+        for (idx, element) in self.enumerate() {
+            
+            if condition() { break }
+            body(idx, element)
         }
     }
 }
