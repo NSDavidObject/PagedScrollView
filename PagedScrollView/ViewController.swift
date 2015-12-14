@@ -23,15 +23,18 @@ class ViewController: UIViewController {
         
         self.scrollView.datasource = self
         self.scrollView.pagingDelegate = self
-        
         self.scrollView.clipsToBounds = false
     }
 }
 
 extension ViewController: DEPagingScrollViewDelegate {
     
-    func pagingScrollView(scrollView: UIScrollView, DidDisplayView view: UIView, forIndex index: Int) {
-        print("View: \(view) at index \(index)")
+    func pagingScrollView(scrollView: UIScrollView, didDisplayView view: UIView, forIndex index: Int) {
+
+    }
+    
+    func pagingScrollView(scrollView: UIScrollView, didScrollPastView view: UIView, forIndex index: Int, visibility: CGFloat) {
+        view.alpha = (1 - visibility)
     }
 }
 
